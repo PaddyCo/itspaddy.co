@@ -1,6 +1,9 @@
 const moment = require("moment");
+const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(eleventyNavigationPlugin);
+
   eleventyConfig.addWatchTarget("./assets/css");
   eleventyConfig.addWatchTarget("./assets/js");
   eleventyConfig.addPassthroughCopy("assets/fonts");
@@ -8,6 +11,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter("dateFormat", dateFormat)
   eleventyConfig.addFilter("getNextPrevFromCollection", getNextPrevFromCollection)
+  eleventyConfig.addFilter("getPaginationButtons", getPaginationButtons)
 
   eleventyConfig.addCollection("post", function(collectionApi) {
     return collectionApi.getAllSorted("post").map(
@@ -43,4 +47,34 @@ function getNextPrevFromCollection(collection, page) {
   }
 
   return pages;
+}
+
+function getPaginationButtons(pagination) {
+  const page = pagination.pageNumber+1
+  const pageCount = pagination.pages.length;
+  let start = page - 2;
+  let end = page + 2;
+
+  if (end > pageCount) {
+    start -= (end - pageCount);
+    end = pageCount;
+  }
+  if (start <= 0) {
+    end += ((start - 1) * -1);
+    start = 1;
+  }
+
+  end = end > pageCount ? pageCount : end;
+
+  let range = [];
+  for (var i = start; i <= end; i++) {
+    range.push(
+      {
+        index: i,
+        url: pagination.hrefs[i-1],
+        current: page == i,
+      }
+    );
+  }
+  return range;
 }

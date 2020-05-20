@@ -33,33 +33,18 @@
 {% endmacro %}
 
 {% macro paginationNavigation(pagination, page) %}
-    {% set currentIndex = 0 %}
-    {% for pageEntry in pagination.pages %}
-        {% if page.url == pagination.hrefs[loop.index0] %}
-            {% set currentIndex = loop.index0 %}
-        {% endif %}
-    {% endfor %}
-
-    {% set buttons = 5 %}
-
     <nav role="navigation" aria-label="Pagination Navigation">
         <ul class="pagination">
             <li class="pagination__item">
                 {% if pagination.href.previous %}<a class="pagination__button" aria-label="Go to previous page" href="{{ pagination.href.previous }}">{{ svgIcon("chevron-right", "pagination__button__icon icon--flip") }} </a>
                 {% else %}<a class="pagination__button pagination__button--disabled">{{ svgIcon("chevron-right", "pagination__button__icon icon--flip") }}</a>{% endif %}
             </li>
-            {%- for pageEntry in pagination.pages %}
-                {% if loop.index0 - (buttons/2) > currentIndex %}
-                {% elseif loop.index0 + (buttons/2) < currentIndex %}
-                {% else %}
-                    {{ buttonjs }}
-                    <li class="pagination__item">
-                        {% set current = currentIndex == loop.index0 %}
-                        <a class="pagination__button {% if current %}pagination__button--active{% endif %}" aria-label="{% if current %}Current page, {% endif %}Go to page {{ loop.index }}" href="{{ pagination.hrefs[loop.index0] }}" {% if current %}aria-current="page"{% endif %}>
-                            {{ loop.index }}
-                        </a>
-                    </li>
-                {% endif %}
+            {%- for button in pagination | getPaginationButtons %}
+                <li class="pagination__item">
+                    <a class="pagination__button {% if button.current %}pagination__button--active{% endif %}" aria-label="{% if current %}Current page, {% endif %}Go to page {{ button.index }}" href="{{ button.url }}" {% if button.current %}aria-current="page"{% endif %}>
+                        {{ button.index }}
+                    </a>
+                </li>
             {%- endfor %}
             <li class="pagination__item">
                 {% if pagination.href.next %}<a class="pagination__button" aria-label="Go to next page" href="{{ pagination.href.next }}">{{ svgIcon("chevron-right", "pagination__button__icon") }}</a>

@@ -1,0 +1,32 @@
+---
+layout: "master.njk"
+title: "Blog"
+subtitle: My words and ramblings
+eleventyNavigation:
+  key: Blog
+pagination:
+  data: collections.post
+  size: 2
+  reverse: true
+  alias: posts
+---
+{% import "components.njk" as components %}
+
+{{ components.header(title, subtitle) }}
+
+<div class="wrapper">
+    {% for post in pagination.items %}
+        <div class="post">
+            <a aria-hidden href="{{post.url}}"><div class="post__thumbnail" style="background-image: url({{ post.data.thumbnail }})"></div></a>
+            <a class="post__link" href="{{post.url}}"><h3 class="post__title">{{post.data.title}}</h3></a>
+            <a class="post__link" href="{{post.url}}">
+                <p class="post__excerpt">
+                    {{ post.templateContent | striptags(true) | truncate(150) }}
+                </p>
+            </a>
+            <a class="post__link" href="{{post.url}}"><span class="post__date">{{post.date | dateFormat}}</span></a>
+        </div>
+    {% endfor %}
+
+    {{ components.paginationNavigation(pagination, page) }}
+</div>

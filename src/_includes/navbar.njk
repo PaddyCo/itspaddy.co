@@ -7,9 +7,9 @@
             </a>
         </div>
         <nav role="navigation" class="navbar__menu">
-            {%- for link in site.navigation %}
+            {%- for link in collections.all | eleventyNavigation %}
                 <a class="navbar__menu__item {% if (link.url != "/" or link.url == page.url) and link.url in page.url %}navbar__menu__item--active{% endif %}" href="{{ link.url }}">
-                    {{ link.label }}
+                    {{ link.title }}
                 </a>
             {%- endfor %}
         </nav>
