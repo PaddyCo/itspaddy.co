@@ -1,0 +1,113 @@
+.navbar {
+    background-color: $color-primary;
+    color: $color-black;
+    padding: $padding 0;
+
+    &__wrapper {
+        @extend .wrapper;
+
+        @include bp(md) {
+            display: flex;
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__title {
+        font-size: 2rem;
+        margin: 0 $padding 0 0;
+
+        a {
+            text-decoration: none;
+        }
+
+        @include bp(sm) {
+            font-size: 3rem;
+        }
+    }
+
+    &__menu {
+        display: none;
+        margin: $padding 0 0 0;
+
+        &--toggled {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @include bp(sm) {
+            display: flex;
+            flex-direction: row;
+        }
+
+        @include bp(md) {
+            margin: 0;
+        }
+
+        &__item {
+            margin: 0 0 $padding 0;
+            text-decoration: none;
+            font-weight: bold;
+            color: $color-black;
+            padding: $padding;
+            border: 3px dashed $color-secondary;
+
+            &:last-child {
+                margin: 0;
+            }
+
+            &:hover, &--active {
+                background-color: $color-secondary;
+                color: $color-white;
+            }
+
+            @include bp(sm) {
+                display: flex;
+                flex-direction: row;
+                margin: 0 $padding 0 0;
+            }
+        }
+
+    }
+
+    &__toggle {
+        cursor: pointer;
+
+        @include bp(sm) {
+            display: none;
+        }
+
+        svg {
+            fill: $color-black;
+            width: 32px;
+            height: 32px;
+
+            .middle-bar, .top-bar, .bottom-bar {
+                transition: transform 0.2s;
+                transform-origin: center;
+            }
+        }
+
+        &--toggled {
+            svg {
+                .middle-bar {
+                    transform: scale(0%, 100%);
+                }
+                .top-bar {
+                    transform: translate(20%, 20%) rotate(-45deg);
+                    transform-origin: center;
+                }
+                .bottom-bar {
+                    transform: translate(20%, -20%) rotate(45deg);
+                    transform-origin: center;
+                }
+            }
+        }
+
+    }
+}

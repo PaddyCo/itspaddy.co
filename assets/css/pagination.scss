@@ -1,0 +1,47 @@
+.pagination {
+    margin: 0 0 $padding 0;
+    padding: 0;
+    list-style: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+
+    &__item {
+        display: block;
+        margin: 0 $padding/1.5 0 0;
+
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+    &__button {
+        display: block;
+        min-width: 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: $color-15;
+        padding: $padding/1.5;
+        height: 16px;
+
+        @include bp(sm) {
+            padding: $padding;
+            margin: 0 $padding 0 0;
+        }
+
+        &--active {
+            background-color: $color-secondary;
+        }
+
+        &--disabled {
+            opacity: 0.25;
+        }
+
+        &__icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}

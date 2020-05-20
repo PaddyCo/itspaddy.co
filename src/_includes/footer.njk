@@ -1,0 +1,12 @@
+<div class="footer">
+    <div class="wrapper">
+        <h2 class="footer__social__title">Find me on</h2>
+        <div class="footer__social">
+            {% for social in site.social %}
+                <a class="footer__social__link" href="{{ social.url }}">{{ social.service }}</a>
+            {% endfor %}
+        </div>
+
+        <span class="footer__copyright">Site content is © {{ site.copyrightYear }} me. Code is open source and available <a href="{{ site.repositoryUrl }} ">here</a></span>
+    </div>
+</div>

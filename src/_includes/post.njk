@@ -1,0 +1,12 @@
+---
+layout: master.njk
+---
+{% import "components.njk" as components %}
+{{ components.header(title, page.date | dateFormat) }}
+<div class="wrapper">
+    {{ content | safe }}
+</div>
+
+{% for link in collections.post | getNextPrevFromCollection(page) %}
+    <a href="{{ link.page.url }}">{{ link.page.data.title }}</a>
+{% endfor %}

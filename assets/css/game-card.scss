@@ -1,0 +1,53 @@
+.game-card {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    background-color: $color-secondary;
+    margin: 0 0 $padding 0;
+    padding: $padding*2;
+    background-position: center;
+    background-size: cover;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba($color-black, 0.95);
+        padding: $padding*2;
+    }
+
+    &__title {
+        @extend h2;
+        font-size: 2rem;
+        text-decoration: none;
+        color: $color-white;
+        margin: 0 0 $padding 0;
+    }
+
+    &__modes {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__mode {
+        padding: $padding;
+        border: 2px solid $color-secondary;
+        margin-right: $padding;
+        width: 100%;
+        margin: 0 0 $padding 0;
+
+        @include bp(sm) {
+            flex-grow: 1;
+            margin: 0 $padding 0 0;
+            width: inherit;
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        &__name {
+            font-size: 1.5rem;
+        }
+    }
+}

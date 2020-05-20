@@ -1,0 +1,26 @@
+.post {
+    margin: $padding 0 $padding*2 0;
+    text-decoration: none;
+
+    &__thumbnail {
+        height: 128px;
+        width: 100%;
+        background-size: cover;
+        background-position: center center;
+        margin: 0 0 $padding 0;
+    }
+
+    &__title {
+        color: $color-primary;
+        margin: 0 0 $padding 0;
+    }
+
+    &__date {
+        text-decoration: none;
+        color: $color-primary;
+    }
+
+    &__link {
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,70 @@
+{% macro header(title, subtitle) %}
+<div class="header">
+    <div class="wrapper">
+        <h1 class="header__title">{{ title }}</h1>
+        {%- if subtitle %}
+            <p class="header__subtitle">{{ subtitle }}</p>
+        {%- endif %}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro svgIcon(name, class) %}
+    <svg class="{{ class }}" role="img"><use xlink:href="/assets/icons/icons.svg#{{ name }}"/></svg>
+{% endmacro %}
+
+{% macro gameCard(game) %}
+<div class="game-card" style="background-image: url('/assets/images/games/{{ game.title | slug }}.jpg')">
+    <div class="game-card__content">
+        <a class="game-card__title" href="/games/{{ game.title | slug }}">
+            {{ game.title }}
+        </a>
+        <div class="game-card__modes">
+            {%- for mode in game.modes %}
+                <div class="game-card__mode">
+                    <div class="game-card__mode__name">{{ mode.name }}</div>
+                    <div class="game_card__mode__best">{{ mode.bestScore.score }}</div>
+                    <div class="game_card__mode__best">{{ mode.bestStage.stage.label }}</div>
+                </div>
+            {%- endfor %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro paginationNavigation(pagination, page) %}
+    {% set currentIndex = 0 %}
+    {% for pageEntry in pagination.pages %}
+        {% if page.url == pagination.hrefs[loop.index0] %}
+            {% set currentIndex = loop.index0 %}
+        {% endif %}
+    {% endfor %}
+
+    {% set buttons = 5 %}
+
+    <nav role="navigation" aria-label="Pagination Navigation">
+        <ul class="pagination">
+            <li class="pagination__item">
+                {% if pagination.href.previous %}<a class="pagination__button" aria-label="Go to previous page" href="{{ pagination.href.previous }}">{{ svgIcon("chevron-right", "pagination__button__icon icon--flip") }} </a>
+                {% else %}<a class="pagination__button pagination__button--disabled">{{ svgIcon("chevron-right", "pagination__button__icon icon--flip") }}</a>{% endif %}
+            </li>
+            {%- for pageEntry in pagination.pages %}
+                {% if loop.index0 - (buttons/2) > currentIndex %}
+                {% elseif loop.index0 + (buttons/2) < currentIndex %}
+                {% else %}
+                    {{ buttonjs }}
+                    <li class="pagination__item">
+                        {% set current = currentIndex == loop.index0 %}
+                        <a class="pagination__button {% if current %}pagination__button--active{% endif %}" aria-label="{% if current %}Current page, {% endif %}Go to page {{ loop.index }}" href="{{ pagination.hrefs[loop.index0] }}" {% if current %}aria-current="page"{% endif %}>
+                            {{ loop.index }}
+                        </a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+            <li class="pagination__item">
+                {% if pagination.href.next %}<a class="pagination__button" aria-label="Go to next page" href="{{ pagination.href.next }}">{{ svgIcon("chevron-right", "pagination__button__icon") }}</a>
+                {% else %}<a class="pagination__button pagination__button--disabled">{{ svgIcon("chevron-right", "pagination__button__icon") }}</a>{% endif %}
+            </li>
+        </ul>
+    </nav>
+{% endmacro %}

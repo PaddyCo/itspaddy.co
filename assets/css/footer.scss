@@ -1,0 +1,46 @@
+.footer {
+    background-color: $color-primary;
+    color: $color-black;
+    padding: $padding*2 0;
+
+    &__social {
+        list-style: none;
+        margin: $padding 0;
+        padding: 0;
+        display: flex;
+
+        &:after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        &__title {
+            font-size: 1.25rem;
+            margin: 0 0 $padding 0;
+            padding: 0;
+        }
+
+        &__link {
+            color: $color-black;
+            padding: $padding/2;
+            margin: 0 $padding 0 0;
+            text-decoration: none;
+            border-bottom: 3px solid $color-secondary;
+            clear: both;
+
+            &:hover {
+                background-color: $color-secondary;
+                color: $color-white;
+            }
+
+        }
+    }
+
+    &__copyright {
+        margin: 0;
+        padding: 0;
+        font-size: 0.6rem;
+        color: $color-3;
+    }
+}
