@@ -14,11 +14,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("getPaginationButtons", getPaginationButtons)
 
   eleventyConfig.addCollection("post", function(collectionApi) {
-    return collectionApi.getAllSorted("post").map(
-      (p) => {
-        p.data.thumbnail = `https://picsum.photos/1000/300?random=${parseInt(Math.random() * 100)}`;
-        return p;
-      });
+    return collectionApi.getAllSorted()
+      .filter((p) => p.data.tags ? p.data.tags.indexOf("post") >= 0 : false)
+      .map(hydratePost);
   });
 
   return {
@@ -28,6 +26,12 @@ module.exports = function(eleventyConfig) {
     },
   }
 };
+
+
+function hydratePost(post) {
+  post.data.thumbnail = `https://picsum.photos/1000/300?random=${parseInt(Math.random() * 100)}`;
+  return post;
+}
 
 
 function dateFormat(dateString) {
