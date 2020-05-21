@@ -9,6 +9,6 @@ deploy:
   github_token: $GITHUB_TOKEN
   keep_history: true
   fqdn: itspaddy.co
-  repo: PaddyCo/itspaddy.co-page
+  repo: PaddyCo/PaddyCo.github.io
   on:
     branch: master
