@@ -2,11 +2,28 @@
 layout: master.njk
 ---
 {% import "components.njk" as components %}
-{{ components.header(title, page.date | dateFormat) }}
-<div class="wrapper">
-    {{ content | safe }}
-</div>
+{{ components.header(title, page.date | dateFormat, thumbnail) }}
+<div class="wrapper content">
+  {{ content | safe }}
 
-{% for link in collections.post | getNextPrevFromCollection(page) %}
-    <a href="{{ link.page.url }}">{{ link.page.data.title }}</a>
-{% endfor %}
+  {% set next = collections.post | getNextInCollection(page) %}
+  {% set prev = collections.post | getPrevInCollection(page) %}
+
+  <hr />
+
+  {% macro nextPrevLink(label, page) %}
+    {% if page %}
+      <div class="post__meta__content">
+        <h4 class="post__meta__label">{{ label }}:</h4>
+        {% if page %}
+          <a href="{{ page.url }}">{{ page.data.title }}</a> on {{ page.date | dateFormat }}
+        {% else %}
+          {{ noLabel }}
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endmacro %}
+
+  {{ nextPrevLink("Next post", next) }}
+  {{ nextPrevLink("Previous post", prev) }}
+</div>

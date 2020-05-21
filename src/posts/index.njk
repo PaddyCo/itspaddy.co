@@ -1,12 +1,13 @@
 ---
 layout: "master.njk"
 title: "Blog"
-subtitle: My words and ramblings
+subtitle: "My words and ramblings"
+permalink: "{% if pagination.pageNumber > 0 %}posts/{{pagination.pageNumber + 1 }}/{% endif %}index.html"
 eleventyNavigation:
   key: Blog
 pagination:
   data: collections.post
-  size: 2
+  size: 5
   reverse: true
   alias: posts
 ---
@@ -15,18 +16,19 @@ pagination:
 {{ components.header(title, subtitle) }}
 
 <div class="wrapper">
-    {% for post in pagination.items %}
-        <div class="post">
-            <a aria-hidden href="{{post.url}}"><div class="post__thumbnail" style="background-image: url({{ post.data.thumbnail }})"></div></a>
-            <a class="post__link" href="{{post.url}}"><h3 class="post__title">{{post.data.title}}</h3></a>
-            <a class="post__link" href="{{post.url}}">
-                <p class="post__excerpt">
-                    {{ post.templateContent | striptags(true) | truncate(150) }}
-                </p>
-            </a>
-            <a class="post__link" href="{{post.url}}"><span class="post__date">{{post.date | dateFormat}}</span></a>
-        </div>
-    {% endfor %}
+  {% for post in pagination.items %}
+    <div class="blog__post">
+      <a aria-hidden class="blog__post__thumbnail" href="{{post.url}}" style="background-image: url({{ post.data.thumbnail }})"></a>
+      <div class="blog__post__content">
+        <a class="blog__post__title" href="{{post.url}}">{{ post.data.title }} </a>
+        <p class="blog__post__excerpt">
+          {{ post.templateContent | striptags(true) | truncate(250) }}
+        </p>
+        <span class="blog__post__date">{{post.date | dateFormat}}</span>
+      </div>
+    </div>
+    <hr />
+  {% endfor %}
 
-    {{ components.paginationNavigation(pagination, page) }}
+  {{ components.paginationNavigation(pagination, page) }}
 </div>

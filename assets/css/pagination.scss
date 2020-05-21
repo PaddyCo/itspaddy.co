@@ -28,7 +28,6 @@
 
         @include bp(sm) {
             padding: $padding;
-            margin: 0 $padding 0 0;
         }
 
         &--active {

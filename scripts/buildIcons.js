@@ -3,7 +3,7 @@ const path = require("path");
 const svgstore = require("svgstore");
 
 const ICON_PATH = "assets/icons/";
-const OUTPUT_PATH = "dist/assets/icons/";
+const OUTPUT_PATH = "dist/assets/icons/icons.svg";
 fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
 
 const dir = fs.readdirSync(ICON_PATH);
@@ -20,4 +20,4 @@ icons.forEach(i => {
   sprites.add(name, i[1]);
 });
 
-fs.writeFileSync(OUTPUT_PATH + "icons.svg", sprites);
+fs.writeFileSync(OUTPUT_PATH, sprites);

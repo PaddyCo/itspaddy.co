@@ -1,11 +1,13 @@
-{% macro header(title, subtitle) %}
-<div class="header">
+{% macro header(title, subtitle, bgImage) %}
+<div class="header {% if bgImage %}header--bg-image{% endif %}" {% if bgImage %}style="background-image: url({{ bgImage }})"{% endif %}>
+  <div class="header__content">
     <div class="wrapper">
-        <h1 class="header__title">{{ title }}</h1>
-        {%- if subtitle %}
-            <p class="header__subtitle">{{ subtitle }}</p>
-        {%- endif %}
+      <h1 class="header__title">{{ title }}</h1>
+      {%- if subtitle %}
+        <p class="header__subtitle">{{ subtitle }}</p>
+      {%- endif %}
     </div>
+  </div>
 </div>
 {% endmacro %}
 

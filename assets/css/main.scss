@@ -1,11 +1,10 @@
 @import "node_modules/normalize.css/normalize";
 
+$padding: 16px;
+
 @import "colors";
 @import "breakpoints";
 @import "typography";
-
-$padding: 16px;
-
 
 body, html {
     height: 100%;
@@ -20,6 +19,10 @@ body {
     font-size: $font-size-body;
 }
 
+hr {
+  margin: $padding*2 0;
+  border: 1px solid $color-secondary;
+}
 
 .content {
     flex: 1 0 auto;
@@ -44,7 +47,14 @@ body {
 @import "icon";
 @import "navbar";
 @import "header";
-@import "post";
+@import "blog";
+@import "content";
 @import "game-card";
 @import "pagination";
 @import "footer";
+
+// Syntax highlighting
+@import "node_modules/prism-themes/themes/prism-dracula";
+pre[class*="language-"] {
+  border-radius: 0
+}

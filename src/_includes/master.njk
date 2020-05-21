@@ -3,6 +3,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% if thumbnail %}
+        <meta property="og:image" content="{{ thumbnail }}" />
+        {% endif %}
+
         <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
         <title>{{ site.name }} - {{ title }}</title>
     </head>

@@ -1,8 +1,12 @@
 const moment = require("moment");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const { dateFormat } = require("./helpers");
 
 module.exports = function(eleventyConfig) {
+  eleventyConfig.setDataDeepMerge(true);
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   eleventyConfig.addWatchTarget("./assets/css");
   eleventyConfig.addWatchTarget("./assets/js");
@@ -10,13 +14,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets/images");
 
   eleventyConfig.addFilter("dateFormat", dateFormat)
-  eleventyConfig.addFilter("getNextPrevFromCollection", getNextPrevFromCollection)
+  eleventyConfig.addFilter("getIndexInCollection", getIndexInCollection)
+  eleventyConfig.addFilter("getNextInCollection", getNextInCollection)
+  eleventyConfig.addFilter("getPrevInCollection", getPrevInCollection)
   eleventyConfig.addFilter("getPaginationButtons", getPaginationButtons)
 
-  eleventyConfig.addCollection("post", function(collectionApi) {
-    return collectionApi.getAllSorted()
-      .filter((p) => p.data.tags ? p.data.tags.indexOf("post") >= 0 : false)
-      .map(hydratePost);
+  eleventyConfig.addCollection("post", (collectionApi) => {
+    return collectionApi.getFilteredByGlob("src/posts/*.md");
   });
 
   return {
@@ -27,30 +31,18 @@ module.exports = function(eleventyConfig) {
   }
 };
 
-
-function hydratePost(post) {
-  post.data.thumbnail = `https://picsum.photos/1000/300?random=${parseInt(Math.random() * 100)}`;
-  return post;
+function getIndexInCollection(collection, page) {
+  return collection.findIndex((i) => i.url == page.url);
 }
 
-
-function dateFormat(dateString) {
-  return moment(dateString, "YYYY-MM-DD").format('MMMM Do, YYYY');
+function getNextInCollection(collection, page) {
+  const index = getIndexInCollection(collection, page);
+  return index < collection.length-1 ? collection[index+1] : null;
 }
 
-function getNextPrevFromCollection(collection, page) {
-  const index = collection.findIndex((i) => i.url == page.url);
-  let pages = []
-
-  if (index > 0) {
-    pages.push({ type: "previous", page: collection[index-1] })
-  }
-
-  if (index < collection.length-1) {
-    pages.push({ type: "next", page: collection[index+1] })
-  }
-
-  return pages;
+function getPrevInCollection(collection, page) {
+  const index = getIndexInCollection(collection, page);
+  return index > 0 ? collection[index-1] : null;
 }
 
 function getPaginationButtons(pagination) {
